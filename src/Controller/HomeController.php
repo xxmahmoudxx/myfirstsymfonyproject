@@ -22,6 +22,7 @@ class HomeController extends AbstractController
     {
         return $this->render('service/showservice.html.twig', [
             'name' => $name,
+            
         ]);
     }
     #[Route('', name: 'go_to_index')]  

@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des auteurs</title>
+    <style>
+        .author-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+        .author-picture {
+            margin-right: 20px;
+        }
+        .author-picture img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .author-info h2 {
+            margin: 0;
+        }
+        .author-info p {
+            margin: 5px 0;
+        }
+         .details-link {
+            margin-left: auto;
+            text-decoration: none;
+            color: #109DFD;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des auteurs</h1>
+    {% if authors is not defined or authors is empty %}
+            <p>Aucun auteur trouvé</p>
+        {% else %}
+                <p>Nombre total d'auteurs : {{ authors | length }}</p> 
+
+    <div class="authors-list">
+        {% for author in authors  %}
+            <div class="author-card">
+                <div class="author-picture">
+                    <img src="{{ author.picture }}" alt="{{ author.username }}">
+                </div>
+                <div class="author-info">
+                    <h2>{{ author.username | upper }}</h2>
+                    <p>Email : {{ author.email }}</p>
+                    <p>Nombre de livres : {{ author.nb_books }}</p>
+                </div>
+                                    <a class="details-link" href="{{ path('author_details', {id: author.id}) }}">Détails</a> 
+
+            </div>
+        {% else %}
+            <p>Aucun auteur trouvé</p>
+        {% endfor %}
+        <p> nombre total de books est {{totalBooks}}</p>
+         {% endif %}
+
+    </div>
+</body>
+</html>
