@@ -6,6 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\AeroportRepository;
+use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Aeroport;
+use App\Form\AeroportType;
+use Doctrine\Persistence\ManagerRegistry;
+
 
 
 class AireportController extends AbstractController
@@ -28,9 +33,11 @@ class AireportController extends AbstractController
     }
 
     #[Route('/aeroports/add', name: 'app_aeroport_add')]
-    public function add(Request $request, AeroportRepository $aeroportRepository): Response
+    public function add(Request $request, AeroportRepository $aeroportRepository ,ManagerRegistry $doctrine): Response
     {
         $aeroport = new Aeroport();
+        $entityManager = $doctrine->getManager();
+
 
         // Create the form using the AeroportType
         $form = $this->createForm(AeroportType::class, $aeroport);
@@ -38,15 +45,17 @@ class AireportController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $aeroportRepository->save($aeroport, true);
-
+            $entityManager->persist($aeroport);
+        $entityManager->flush();
             return $this->redirectToRoute('/aeroports');
         }
 
-        return $this->render('aeroport/add.html.twig', [
+        return $this->render('aireport/add.html.twig', [
             'form' => $form->createView(),
         ]);
     }
+   
+     
 }
 
 

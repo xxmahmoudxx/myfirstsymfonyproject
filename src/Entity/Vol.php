@@ -17,10 +17,10 @@ class Vol
     private $villeDestination;
 
     #[ORM\Column(type: 'datetime')]
-    private $dateDeDépart;
+    private $dateDeDepart;
 
     #[ORM\Column(type: 'datetime')]
-    private $dateDArrivée;
+    private $dateDArrivee;
 
     #[ORM\ManyToOne(targetEntity: Aeroport::class, inversedBy: 'vols')]
     #[ORM\JoinColumn(nullable: false)]
@@ -43,26 +43,26 @@ class Vol
         return $this;
     }
 
-    public function getDateDeDépart(): ?\DateTimeInterface
+    public function getDateDeDepart(): ?\DateTimeInterface
     {
-        return $this->dateDeDépart;
+        return $this->dateDeDepart;
     }
 
     public function setDateDeDépart(\DateTimeInterface $dateDeDépart): self
     {
-        $this->dateDeDépart = $dateDeDépart;
+        $this->dateDeDepart = $dateDeDépart;
 
         return $this;
     }
 
-    public function getDateDArrivée(): ?\DateTimeInterface
+    public function getDateDArrivee(): ?\DateTimeInterface
     {
-        return $this->dateDArrivée;
+        return $this->dateDArrivee;
     }
 
-    public function setDateDArrivée(\DateTimeInterface $dateDArrivée): self
+    public function setDateDArrivée(\DateTimeInterface $dateDArrivee): self
     {
-        $this->dateDArrivée = $dateDArrivée;
+        $this->dateDArrivee = $dateDArrivee;
 
         return $this;
     }

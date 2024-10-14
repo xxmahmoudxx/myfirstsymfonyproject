@@ -1,0 +1,15 @@
+{# templates/vol/add.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Flight{% endblock %}
+
+{% block body %}
+    <h1>Add velo</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    <button type="submit">Submit</button>
+    {{ form_end(form) }}
+
+{% endblock %}
