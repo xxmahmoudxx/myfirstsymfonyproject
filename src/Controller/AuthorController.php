@@ -1,11 +1,15 @@
 <?php
 
 namespace App\Controller;
-
+use  App\Repository\AuthorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
- use Repository\AuthorRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Author; // Ensure this import statement is present
+use App\Form\AuthorType;
+
 
 class AuthorController extends AbstractController
 {
@@ -56,11 +60,69 @@ public function showAuthorDetails(int $id): Response {
         'author' => $author,
     ]);
 }
-#[Route('author/list')]
-public function read(AuthorRepository $repoAuthor):response {
+#[Route('author/list' ,name:'author/list')]
+public function read(AuthorRepository $repoAuthor):Response {
     $List=$repoAuthor -> findAll();
-    return $this.render('author/List.html.twig',[
-        'List' => $List,
+    return $this->render('author/Lista.html.twig',[
+        'List' => $List
     ]);
 }
+
+#[Route('author/add', name: 'author_add')]
+public function add(Request $request, ManagerRegistry $doctrine): Response 
+{
+    $author = new Author();
+    $entityManager = $doctrine->getManager();
+    $form = $this->createForm(AuthorType::class, $author);
+    $form->handleRequest($request); // Process form data
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $entityManager->persist($author);
+        $entityManager->flush();
+
+        // Redirect to a different route after form submission
+        return $this->redirectToRoute('author/list');
+    }
+
+    // Render the form template
+    return $this->renderForm('author/add.html.twig', [
+        'form' => $form,
+    ]);
+}
+
+#[Route('author/delite/{id}', name: 'author/delite')]
+public function delete( $id,AuthorRepository $repoAuthor, ManagerRegistry $doctrine): Response {
+    $author = $repoAuthor->find($id);
+
+    if (!$author) {
+        throw $this->createNotFoundException('The author does not exist.');
+    }
+
+    $entityManager = $doctrine->getManager();
+    $entityManager->remove($author);
+    $entityManager->flush();
+
+    return $this->redirectToRoute('author/list');
+}
+
+
+#[Route('author/edit/{id}', name: 'author_edit')]
+public function edit(Request $request, Author $author, ManagerRegistry $doctrine): Response
+{
+    $entityManager = $doctrine->getManager();
+    $form = $this->createForm(AuthorType::class, $author);
+    $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+        $entityManager->flush();
+        return $this->redirectToRoute('author/list');
+        }
+        return $this->renderForm('author/edit.html.twig', [
+            'form' => $form,
+            'author' => $author,
+        ]);
+        }
+
+
+    
+   
 }

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau des auteurs</title>
+    <style>
+        table {
+            width: 50%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align:center;">Liste des auteurs</h2>
+    <a href="{{ path('author_add') }}">Ajouter un auteur</a>
+
+    <table id="authorsTable">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+         {% for author in List  %}
+         <tr>
+           <td >{{ author.usename}}</td>
+          <td> {{ author.email}}</td>
+          <td>
+                <a href="{{ path('author/delite', {'id': author.id}) }}">Delete</a> 
+            
+            <a href="{{ path('author_edit', {'id': author.id}) }}">Edit</a>  
+            </td>
+            
+            </tr>
+             {% endfor %}
+
+        </tbody>
+    </table>
+
+
+
+    
+
+</body>
+</html>

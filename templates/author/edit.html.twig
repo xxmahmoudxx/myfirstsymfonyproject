@@ -1,0 +1,15 @@
+
+<h1>edit 1</h1>
+
+<!-- Start the form tag with the correct route -->
+<form action="{{ path('author_edit',{id: author.id}) }}" method="post">
+    {{ form_start(form) }}
+
+    <!-- Render the form fields -->
+    {{ form_widget(form) }}
+
+    <!-- Add a submit button -->
+    <button type="submit">Submit</button>
+
+    {{ form_end(form) }}
+</form>
